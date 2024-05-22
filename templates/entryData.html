@@ -3,7 +3,7 @@
 
     <head>
         <meta charset="utf-8">
-        <title>PestKit - Pest Control Website Template</title>
+        <title>Entry data</title>
         <meta content="width=device-width, initial-scale=1.0" name="viewport">
         <meta content="" name="keywords">
         <meta content="" name="description">
@@ -87,7 +87,7 @@
                 </div>
                 <div class="row justify-content-center">
                     <div class="col-lg-6 col-md-8 wow fadeInUp" data-wow-delay=".6s">
-                        <form id="prediction-form">
+                        <form id="prediction-form" action="{{ url_for('make_predictions') }}" method="post">
                             <div class="mb-3">
                                 <label for="productID" class="form-label">Product ID</label>
                                 <select class="form-select" id="productID" name="productID" required>
@@ -10095,8 +10095,8 @@
                                 </select>
                             </div>
                             <div class="mb-3">
-                                <label for="type" class="form-label">Type</label>
-                                <select class="form-select" id="type" name="type" required>
+                                <label  id="type"for="type" class="form-label">Type</label>
+                                <select class="form-select" id="type_pd" name="type_pd" required>
                                     <option value="">Select Type</option>
                                     <option value="2">Type M</option>
                                     <option value="1">Type L</option>

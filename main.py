@@ -1,59 +1,57 @@
 import os
 from flask import Flask, redirect, url_for, render_template, request, session, make_response
-from datetime import timedelta, datetime
-from flask_sqlalchemy import SQLAlchemy
+from datetime import timedelta
 import pickle
-from matplotlib.offsetbox import DrawingArea
-from sklearn.preprocessing import LabelEncoder
 import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-import seaborn as sns
-import datetime as dt
-import scipy.stats as st
-from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LinearRegression
-from sklearn.tree import DecisionTreeRegressor
-from sklearn.ensemble import RandomForestRegressor
 from sklearn.preprocessing import StandardScaler
-from reportlab.lib.pagesizes import letter
-from reportlab.pdfgen import canvas
-import io
-from reportlab.lib.pagesizes import letter
-from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph
-from reportlab.lib import colors
-from reportlab.lib.styles import getSampleStyleSheet
-from io import BytesIO
-from reportlab.platypus import Image,Spacer
-from reportlab.graphics.charts.lineplots import LinePlot
-from reportlab.graphics.widgets.markers import makeMarker
-from reportlab.graphics.shapes import Drawing
-from reportlab.lib.pagesizes import letter
-from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Image, PageBreak
-from reportlab.lib import colors
-from reportlab.lib.styles import getSampleStyleSheet
-from reportlab.graphics.charts.lineplots import LinePlot
-from reportlab.graphics.shapes import Drawing
-from reportlab.lib.units import inch
-from reportlab.lib.pagesizes import letter
 
 #-----------------------------------------------------------------------------------------------------------------------------------------------------
 
 app = Flask(__name__)
-app.secret_key="hello"
-app.config['SQLALCHEMY_DATABASE_URI']='sqlite:///feedbacks.sqlite3'
+app.secret_key = "hello"
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///feedbacks.sqlite3'
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 #------------------------------------------------------------load models--------------------------------------------------------------
 
+loaded_model = pickle.load(open('model_np.pkl', 'rb'))
 
+#------------------------------------------------------------------------------------Sessions-------------------------------------------------------: 
 
+app.permanent_session_lifetime = timedelta(minutes=5)
+
+#----------------------------------------------------------------------------------------------------functions----------------------------------------------------------------:
+
+# Predict machine failure
+def predict_fail(productID, type_pd, airTemperature, processTemperature, rotationalSpeed, torque, toolWear):
+    # Arguments
+    productID = int(productID)
+    type_pd = int(type_pd)
+    airTemperature = float(airTemperature)
+    processTemperature = float(processTemperature)
+    rotationalSpeed = int(rotationalSpeed)
+    torque = float(torque)
+    toolWear = int(toolWear)
+
+    input_test = pd.DataFrame({
+        'Product ID': [productID],
+        'Type': [type_pd],
+        'Air temperature [K]': [airTemperature],
+        'Process temperature [K]': [processTemperature],
+        'Rotational speed [rpm]': [rotationalSpeed],
+        'Torque [Nm]': [torque],
+        'Tool wear [min]': [toolWear]
+    })
+
+    pred_np = loaded_model.predict(input_test)
+    result = pred_np[0]
+
+    return result
 
 # -------------------------------------------------------Routes----------------------------------------------------------------------------------------- :
 
 @app.route("/")
 def home():
-    
     return render_template('index.html')
 
 @app.route("/index")
@@ -72,9 +70,35 @@ def entryData():
 def resultData():
     return render_template('resultData.html')
 
+@app.route("/make_predictions", methods=["POST"])
+def make_predictions():
+    if request.method == "POST":
+        session.permanent = True
+        # Get the user input
+        productID = request.form["productID"]
+        type_pd = request.form["type_pd"]
+        airTemperature = request.form["airTemperature"]
+        processTemperature = request.form["processTemperature"]
+        rotationalSpeed = request.form["rotationalSpeed"]
+        torque = request.form["torque"]
+        toolWear = request.form["toolWear"]
+
+        # Perform prediction
+        predicted_value = predict_fail(productID, type_pd, airTemperature, processTemperature, rotationalSpeed, torque, toolWear)
+
+        # Storing the values on session (converting to standard Python types)
+        session["productID"] = str(productID)
+        session["type_pd"] = str(type_pd)
+        session["airTemperature"] = str(airTemperature)
+        session["processTemperature"] = str(processTemperature)
+        session["rotationalSpeed"] = str(rotationalSpeed)
+        session["torque"] = str(torque)
+        session["toolWear"] = str(toolWear)
+        session["predicted_value"] = int(predicted_value)
+
+    return redirect(url_for('resultData'))
+
 #-----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-if __name__=="__main__":
+if __name__ == "__main__":
     app.run(debug=True)
-
-   

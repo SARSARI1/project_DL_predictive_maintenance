@@ -1,9 +1,11 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 
     <head>
         <meta charset="utf-8">
-        <title>PestKit - Pest Control Website Template</title>
+        <title>Result data</title>
         <meta content="width=device-width, initial-scale=1.0" name="viewport">
         <meta content="" name="keywords">
         <meta content="" name="description">
@@ -61,22 +63,22 @@
         </div>
         <!-- Navbar End -->
 
-        
-        <!-- Page Header Start -->
-        <div class="container-fluid page-header py-5">
-            <div class="container text-center py-5">
-                <h1 class="display-2 text-white mb-4 animated slideInDown">Resultat</h1>
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb justify-content-center mb-0 animated slideInDown">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item"><a href="#">Pages</a></li>
-                        <li class="breadcrumb-item text-white" aria-current="page">result data</li>
-                    </ol>
-                </nav>
-            </div>
-        </div>
-        <!-- Page Header End -->
-                    <!-- Result Page Start -->
+                    
+                    <!-- Page Header Start -->
+                    <div class="container-fluid page-header py-5">
+                        <div class="container text-center py-5">
+                            <h1 class="display-2 text-white mb-4 animated slideInDown">Resultat</h1>
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb justify-content-center mb-0 animated slideInDown">
+                                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                                    <li class="breadcrumb-item"><a href="#">Pages</a></li>
+                                    <li class="breadcrumb-item text-white" aria-current="page">result data</li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                <!-- Page Header End -->
+            <!-- Result Page Start -->
             <div class="container py-5">
                 <div class="row justify-content-center">
                     <div class="col-lg-8">
@@ -86,9 +88,13 @@
                         </div>
                         <div class="card mb-3">
                             <div class="card-body">
-                                <h5 class="card-title">Machine ID: XYZ123</h5>
-                                <p class="card-text">Prediction Result: <span class="text-success">No Repair Needed</span></p>
-                                <p class="card-text">Prediction Confidence: 96%</p>
+                                <h5 class="card-title">The results for this Machine:</h5>
+                                {% if session['predicted_value'] == 0 %}
+                                    <p class="card-text">Prediction Result: <span class="text-success">No Repair Needed</span></p>
+                                {% else %}
+                                    <p class="card-text">Prediction Result: <span class="text-danger">Repair Needed</span></p>
+                                {% endif %}
+                                <p class="card-text">Prediction Confidence: {{ session['confidence'] }}%</p>
                             </div>
                         </div>
                         <div class="text-center">
@@ -98,6 +104,7 @@
                 </div>
             </div>
             <!-- Result Page End -->
+
 
         <!-- Copyright Start -->
         <div class="container-fluid copyright bg-dark py-4">
