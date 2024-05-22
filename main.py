@@ -1,9 +1,12 @@
 import os
+from io import BytesIO
+from reportlab.lib.pagesizes import letter
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Image, PageBreak
+from reportlab.lib.styles import getSampleStyleSheet
 from flask import Flask, redirect, url_for, render_template, request, session, make_response
-from datetime import timedelta
+from datetime import datetime, timedelta
 import pickle
 import pandas as pd
-from sklearn.preprocessing import StandardScaler
 
 #-----------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -47,6 +50,49 @@ def predict_fail(productID, type_pd, airTemperature, processTemperature, rotatio
     result = pred_np[0]
 
     return result
+
+def generate_pdf(session_values):
+    buffer = BytesIO()
+    doc = SimpleDocTemplate(buffer, pagesize=letter)
+    elements = []
+    
+    # Add logo
+    logo_path = r'static\img\logo.png'
+    logo = Image(logo_path, width=300, height=300)
+    elements.append(logo)
+    elements.append(Spacer(1, 20))
+    
+    # Add title
+    title = "Prediction Report"
+    elements.append(Paragraph(title, getSampleStyleSheet()['Title']))
+    elements.append(PageBreak())  # Move to the next page
+    
+    # Add the date and time
+    current_datetime = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    elements.append(Paragraph(f"Date: {current_datetime}", getSampleStyleSheet()['Normal']))
+    elements.append(Spacer(1, 20))
+    
+    # Add input values
+    input_values = [
+        f"Product ID: {session_values['productID']}",
+        f"Type: {session_values['type_pd']}",
+        f"Air Temperature [K]: {session_values['airTemperature']}",
+        f"Process Temperature [K]: {session_values['processTemperature']}",
+        f"Rotational Speed [rpm]: {session_values['rotationalSpeed']}",
+        f"Torque [Nm]: {session_values['torque']}",
+        f"Tool Wear [min]: {session_values['toolWear']}"
+    ]
+    for value in input_values:
+        elements.append(Paragraph(value, getSampleStyleSheet()['Normal']))
+        elements.append(Spacer(1, 12))
+    
+    # Add prediction result
+    elements.append(Paragraph(f"Predicted Value: {session_values['predicted_value']}", getSampleStyleSheet()['Normal']))
+    elements.append(Spacer(1, 20))
+    
+    doc.build(elements)
+    buffer.seek(0)
+    return buffer
 
 # -------------------------------------------------------Routes----------------------------------------------------------------------------------------- :
 
@@ -97,6 +143,29 @@ def make_predictions():
         session["predicted_value"] = int(predicted_value)
 
     return redirect(url_for('resultData'))
+
+@app.route("/generate_report")
+def generate_report():
+    if not all(key in session for key in ("productID", "type_pd", "airTemperature", "processTemperature", "rotationalSpeed", "torque", "toolWear", "predicted_value")):
+        return "Session values are missing", 400
+    
+    session_values = {
+        "productID": session.get("productID"),
+        "type_pd": session.get("type_pd"),
+        "airTemperature": session.get("airTemperature"),
+        "processTemperature": session.get("processTemperature"),
+        "rotationalSpeed": session.get("rotationalSpeed"),
+        "torque": session.get("torque"),
+        "toolWear": session.get("toolWear"),
+        "predicted_value": session.get("predicted_value")
+    }
+    
+    pdf_buffer = generate_pdf(session_values)
+    response = make_response(pdf_buffer.getvalue())
+    response.headers['Content-Type'] = 'application/pdf'
+    response.headers['Content-Disposition'] = 'attachment; filename=report.pdf'
+    
+    return response
 
 #-----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
