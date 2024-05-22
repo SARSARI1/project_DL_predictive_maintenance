@@ -43,7 +43,7 @@
         <div class="container-fluid bg-dark">
             <div class="container">
                 <nav class="navbar navbar-dark navbar-expand-lg py-lg-0">
-                    <a href="index.html" class="navbar-brand">
+                    <a href="{{url_for('home')}}" class="navbar-brand">
                         <h1 class="text-primary mb-0 display-5">Future<span class="text-white">Fix</span><i class="fa fa-wrench text-primary ms-2"></i></h1>
                     </a>
                     <button class="navbar-toggler bg-primary" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
@@ -51,8 +51,8 @@
                     </button>
                     <div class="collapse navbar-collapse me-n3" id="navbarCollapse">
                         <div class="navbar-nav ms-auto">
-                            <a href="index.html" class="nav-item nav-link">Home</a>
-                            <a href="about.html" class="nav-item nav-link active">About</a>
+                            <a href="{{url_for('home')}}" class="nav-item nav-link">Home</a>
+                            <a href="{{url_for('home')}}" class="nav-item nav-link active">About</a>
                            
                         </div>
                     </div>
@@ -68,9 +68,9 @@
                 <h1 class="display-2 text-white mb-4 animated slideInDown">About</h1>
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb justify-content-center mb-0 animated slideInDown">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item"><a href="#">Pages</a></li>
-                        <li class="breadcrumb-item text-white" aria-current="page">About</li>
+                        <li class="breadcrumb-item"><a href="{{url_for('home')}}">Home</a></li>
+                        <li class="breadcrumb-item"><a href="{{url_for('about')}}">About</a></li>
+                       
                     </ol>
                 </nav>
             </div>
@@ -145,7 +145,8 @@
                         </div>
                        
                     </div>
-                    <button type="button" class="btn btn-primary border-0 rounded-pill px-4 py-3 mt-5">Let's Go ✅ </button>
+                 <button type="submit"  class="btn btn-primary border-0 rounded-pill px-4 py-3 mt-5"><a  href="{{ url_for('entryData') }}">Let's Go ✅</a></button>
+
                 </div>
             </div>
         </div>
@@ -177,7 +178,7 @@
                                 <a href="#" class="btn btn-primary border-0 mb-2"><i class="fab fa-facebook-f"></i></a>
                                 <a href="#" class="btn btn-primary border-0 mb-2"><i class="fab fa-twitter"></i></a>
                                 <a href="#" class="btn btn-primary border-0 mb-2"><i class="fab fa-instagram"></i></a>
-                                <a href="#" class="btn btn-primary border-0"><i class="fab fa-linkedin-in"></i></a>
+                                <a href="https://www.linkedin.com/in/kaoutar-sarsari/" class="btn btn-primary border-0"><i class="fab fa-linkedin-in"></i></a>
                             </div>
                         </div>
                     </div>

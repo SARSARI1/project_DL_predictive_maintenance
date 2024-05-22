@@ -43,7 +43,7 @@
         <div class="container-fluid bg-dark">
             <div class="container">
                 <nav class="navbar navbar-dark navbar-expand-lg py-lg-0">
-                    <a href="index.html" class="navbar-brand">
+                    <a href="{{url_for('home')}}" class="navbar-brand">
                         <h1 class="text-primary mb-0 display-5">Future<span class="text-white">Fix</span><i class="fa fa-wrench text-primary ms-2"></i></h1>
                     </a>
                     <button class="navbar-toggler bg-primary" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
@@ -51,8 +51,8 @@
                     </button>
                     <div class="collapse navbar-collapse me-n3" id="navbarCollapse">
                         <div class="navbar-nav ms-auto">
-                            <a href="index.html" class="nav-item nav-link">Home</a>
-                            <a href="about.html" class="nav-item nav-link">About</a>
+                            <a href="{{url_for('home')}}" class="nav-item nav-link">Home</a>
+                            <a href="{{url_for('about')}}" class="nav-item nav-link">About</a>
                            
                         </div>
                     </div>
@@ -68,8 +68,8 @@
                 <h1 class="display-2 text-white mb-4 animated slideInDown">Entrer les donnees </h1>
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb justify-content-center mb-0 animated slideInDown">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item"><a href="#">Pages</a></li>
+                        <li class="breadcrumb-item"><a href="{{url_for('home')}}">Home</a></li>
+                        <li class="breadcrumb-item"><a href="{{url_for('about')}}">About</a></li>
                         <li class="breadcrumb-item text-white" aria-current="page">Entrey data</li>
                     </ol>
                 </nav>
@@ -10141,7 +10141,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-4 text-center text-md-start mb-3 mb-md-0">
-                        <a href="#" class="text-primary mb-0 display-6">Future<span class="text-white">Fix</span><i class="fa fa-wrench text-primary ms-2"></i></a>
+                        <a href="{{url_for('home')}}" class="text-primary mb-0 display-6">Future<span class="text-white">Fix</span><i class="fa fa-wrench text-primary ms-2"></i></a>
                     </div>
                     <div class="col-md-4 copyright-btn text-center text-md-start mb-3 mb-md-0 flex-shrink-0">
                         <a class="btn btn-primary rounded-circle me-3 copyright-icon" href=""><i class="fab fa-twitter"></i></a>
