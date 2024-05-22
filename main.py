@@ -7,6 +7,9 @@ from flask import Flask, redirect, url_for, render_template, request, session, m
 from datetime import datetime, timedelta
 import pickle
 import pandas as pd
+from reportlab.lib import colors
+from reportlab.lib.styles import ParagraphStyle
+from reportlab.lib.units import inch
 
 #-----------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -51,49 +54,68 @@ def predict_fail(productID, type_pd, airTemperature, processTemperature, rotatio
 
     return result
 
+# Generate PDF report
 def generate_pdf(session_values):
     buffer = BytesIO()
     doc = SimpleDocTemplate(buffer, pagesize=letter)
     elements = []
-    
+
     # Add logo
     logo_path = r'static\img\logo.png'
     logo = Image(logo_path, width=300, height=300)
     elements.append(logo)
     elements.append(Spacer(1, 20))
-    
+
     # Add title
     title = "Prediction Report"
     elements.append(Paragraph(title, getSampleStyleSheet()['Title']))
     elements.append(PageBreak())  # Move to the next page
-    
+
     # Add the date and time
     current_datetime = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     elements.append(Paragraph(f"Date: {current_datetime}", getSampleStyleSheet()['Normal']))
     elements.append(Spacer(1, 20))
-    
+
     # Add input values
     input_values = [
-        f"Product ID: {session_values['productID']}",
-        f"Type: {session_values['type_pd']}",
-        f"Air Temperature [K]: {session_values['airTemperature']}",
-        f"Process Temperature [K]: {session_values['processTemperature']}",
-        f"Rotational Speed [rpm]: {session_values['rotationalSpeed']}",
-        f"Torque [Nm]: {session_values['torque']}",
-        f"Tool Wear [min]: {session_values['toolWear']}"
+        ("Product ID", session_values['productID']),
+        ("Type", session_values['type_pd']),
+        ("Air Temperature [K]", session_values['airTemperature']),
+        ("Process Temperature [K]", session_values['processTemperature']),
+        ("Rotational Speed [rpm]", session_values['rotationalSpeed']),
+        ("Torque [Nm]", session_values['torque']),
+        ("Tool Wear [min]", session_values['toolWear'])
     ]
-    for value in input_values:
-        elements.append(Paragraph(value, getSampleStyleSheet()['Normal']))
-        elements.append(Spacer(1, 12))
-    
+    bold_style = getSampleStyleSheet()['Normal']
+    bold_style.fontName = 'Helvetica-Bold'
+    bold_style.fontSize = 14
+
+    value_style = ParagraphStyle(name='ValueStyle', textColor=colors.orange, fontSize=14)
+    line_spacing = 18
+    column_spacing = 10  # Adjust column spacing as needed
+
+    for column, value in input_values:
+        column_paragraph = Paragraph(f"<b>{column}:</b>", bold_style)
+        if column != "Product ID" and int(value) == 0:
+            value_paragraph = Paragraph("Doesn't need repair", value_style)
+        else:
+            value_paragraph = Paragraph(str(value), value_style)
+        elements.extend([column_paragraph, Spacer(1, column_spacing), value_paragraph])
+        elements.append(Spacer(1, line_spacing))
+
     # Add prediction result
-    elements.append(Paragraph(f"Predicted Value: {session_values['predicted_value']}", getSampleStyleSheet()['Normal']))
-    elements.append(Spacer(1, 20))
-    
+    predicted_value = session_values['predicted_value']
+    if predicted_value == 0:
+        result_message = "---> The machine doesn't need repair."
+    else:
+        result_message = "---> The machine needs repair."
+    result_style = ParagraphStyle(name='ResultStyle', textColor=colors.red, fontSize=14)
+    result_paragraph = Paragraph(result_message, result_style)
+    elements.extend([result_paragraph, Spacer(1, 20)])
+
     doc.build(elements)
     buffer.seek(0)
     return buffer
-
 # -------------------------------------------------------Routes----------------------------------------------------------------------------------------- :
 
 @app.route("/")
