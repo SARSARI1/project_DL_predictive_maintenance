@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <title>prediction_maintenance</title>
+        <meta content="width=device-width, initial-scale=1.0" name="viewport">
+        <meta content="" name="keywords">
+        <meta content="" name="description">
+
+        <!-- Google Web Fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800&display=swap" rel="stylesheet"> 
+        <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500&display=swap" rel="stylesheet">
+
+        <!-- Icon Font Stylesheet -->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+        <!-- Libraries Stylesheet -->
+        <link href="{{url_for('static', filename='lib/animate/animate.min.css')}}" rel="stylesheet">
+        <link href="{{url_for('static', filename='lib/owlcarousel/assets/owl.carousel.min.css')}}" rel="stylesheet">
+
+        <!-- Customized Bootstrap Stylesheet -->
+        <link href="{{url_for('static', filename='css/bootstrap.min.css')}}" rel="stylesheet">
+
+        <!-- Template Stylesheet -->
+        <link href="{{url_for('static', filename='css/style.css')}}" rel="stylesheet">
+    </head>
+
+    <body>
+        <!-- Spinner Start -->
+        <div id="spinner" class="show w-100 vh-100 bg-white position-fixed translate-middle top-50 start-50 d-flex align-items-center justify-content-center">
+            <div class="spinner-grow text-primary" role="status"></div>
+        </div>
+        <!-- Spinner End -->
+
+       
+
+
+        <!-- Navbar Start -->
+        <div class="container-fluid bg-dark">
+            <div class="container">
+                <nav class="navbar navbar-dark navbar-expand-lg py-lg-0">
+                    <a href="index.html" class="navbar-brand">
+                        <h1 class="text-primary mb-0 display-5">Future<span class="text-white">Fix</span><i class="fa fa-wrench text-primary ms-2"></i></h1>
+                    </a>
+                    <button class="navbar-toggler bg-primary" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                        <span class="fa fa-bars text-dark"></span>
+                    </button>
+                    <div class="collapse navbar-collapse me-n3" id="navbarCollapse">
+                        <div class="navbar-nav ms-auto">
+                            <a href="index.html" class="nav-item nav-link">Home</a>
+                            <a href="about.html" class="nav-item nav-link active">About</a>
+                           
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <!-- Navbar End -->
+
+        
+        <!-- Page Header Start -->
+        <div class="container-fluid page-header py-5">
+            <div class="container text-center py-5">
+                <h1 class="display-2 text-white mb-4 animated slideInDown">About</h1>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb justify-content-center mb-0 animated slideInDown">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item"><a href="#">Pages</a></li>
+                        <li class="breadcrumb-item text-white" aria-current="page">About</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+        <!-- Page Header End -->
+
+<!-- About Start -->
+<!-- About Start -->
+<div class="container-fluid py-5">
+    <div class="container py-5">
+        <div class="row g-5">
+            <div class="col-lg-6 col-md-12 wow fadeInUp" data-wow-delay=".3s">
+                <div class="about-img">
+                    <div class="rotate-left bg-dark"></div>
+                    <div class="rotate-right bg-dark"></div>
+                    <img src="{{url_for('static', filename='img/about-img.jpg')}}" class="img-fluid h-100" alt="img">
+                    <div class="bg-white experiences">
+                        <h1 class="display-4">New</h1>
+                        <h6 class="fw-bold">Innovative Solutions</h6>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-12 wow fadeInUp" data-wow-delay=".6s">
+                <div class="about-item overflow-hidden">
+                    <h5 class="mb-2 px-3 py-1 text-dark rounded-pill d-inline-block border border-2 border-primary">About PredictiMaint</h5>
+                    <h1 class="display-5 mb-2">Revolutionizing Maintenance with AI-Powered Predictions</h1>
+                    <p class="fs-5" style="text-align: justify;">PredictiMaint is a cutting-edge solution that harnesses the power of machine learning to predict equipment failures and optimize maintenance schedules. Our goal is to help industries reduce downtime, increase efficiency, and extend the lifespan of critical assets.</p>
+                    <div class="row">
+                        <div class="col-3">
+                            <div class="text-center">
+                                <div class="p-4 bg-dark rounded d-flex" style="align-items: center; justify-content: center;">
+                                    <i class="fas fa-thermometer-half fa-4x text-primary"></i>
+                                </div>
+                                <div class="my-2">
+                                    <h5>Air Temperature</h5>
+                                    <h5>[K]</h5>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="text-center">
+                                <div class="p-4 bg-dark rounded d-flex" style="align-items: center; justify-content: center;">
+                                    <i class="fas fa-fire fa-4x text-primary"></i>
+                                </div>
+                                <div class="my-2">
+                                    <h5>Process Temperature</h5>
+                                    <h5>[K]</h5>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="text-center">
+                                <div class="p-4 bg-dark rounded d-flex" style="align-items: center; justify-content: center;">
+                                    <i class="fas fa-tachometer-alt fa-4x text-primary"></i>
+                                </div>
+                                <div class="my-2">
+                                    <h5>Rotational Speed</h5>
+                                    <h5>[rpm]</h5>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="text-center">
+                                <div class="p-4 bg-dark rounded d-flex" style="align-items: center; justify-content: center;">
+                                    <i class="fas fa-cogs fa-4x text-primary"></i>
+                                </div>
+                                <div class="my-2">
+                                    <h5>Torque</h5>
+                                    <h5>[Nm]</h5>
+                                </div>
+                            </div>
+                        </div>
+                       
+                    </div>
+                    <button type="button" class="btn btn-primary border-0 rounded-pill px-4 py-3 mt-5">Let's Go ✅ </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- About End -->
+
+
+        
+
+
+        <!-- Team Start -->
+        <div class="container-fluid py-5">
+            <div class="container py-5">
+                <div class="text-center mb-5 wow fadeInUp" data-wow-delay=".3s">
+                    <h5 class="mb-2 px-3 py-1 text-dark rounded-pill d-inline-block border border-2 border-primary">Our Team</h5>
+                    <h1 class="display-5 w-50 mx-auto">Our Team Members</h1>
+                </div>
+
+                <div class="row g-5">
+                    <div class="col-xxl-3 col-lg-6 col-md-6 col-sm-12 wow fadeInUp" data-wow-delay=".3s">
+                        <div class="rounded team-item">
+                            <img src="{{url_for('static', filename='img/team-1..jpg')}}" class="img-fluid w-100 rounded-top border border-bottom-0" alt="">
+                            <div class="team-content bg-primary text-dark text-center py-3">
+                                <span class="fs-4 fw-bold">Sarsari kaoutar</span>
+                               
+                            </div>
+                            <div class="team-icon d-flex flex-column ">
+                                <a href="#" class="btn btn-primary border-0 mb-2"><i class="fab fa-facebook-f"></i></a>
+                                <a href="#" class="btn btn-primary border-0 mb-2"><i class="fab fa-twitter"></i></a>
+                                <a href="#" class="btn btn-primary border-0 mb-2"><i class="fab fa-instagram"></i></a>
+                                <a href="#" class="btn btn-primary border-0"><i class="fab fa-linkedin-in"></i></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xxl-3 col-lg-6 col-md-6 col-sm-12 wow fadeInUp" data-wow-delay=".5s">
+                        <div class="rounded team-item">
+                            <img src="{{url_for('static', filename='img/team-2.jpg')}}" class="img-fluid w-100 rounded-top border border-bottom-0" alt="">
+                            <div class="team-content bg-primary text-dark text-center py-3">
+                                <span class="fs-4 fw-bold">Ghita khaled</span>
+                                
+                            </div>
+                            <div class="team-icon d-flex flex-column ">
+                                <a href="#" class="btn btn-primary border-0 mb-2"><i class="fab fa-facebook-f"></i></a>
+                                <a href="#" class="btn btn-primary border-0 mb-2"><i class="fab fa-twitter"></i></a>
+                                <a href="#" class="btn btn-primary border-0 mb-2"><i class="fab fa-instagram"></i></a>
+                                <a href="#" class="btn btn-primary border-0"><i class="fab fa-linkedin-in"></i></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xxl-3 col-lg-6 col-md-6 col-sm-12 wow fadeInUp" data-wow-delay=".7s">
+                        <div class="rounded team-item">
+                            <img src="{{url_for('static', filename='img/team-3.jpg')}}" class="img-fluid w-100 rounded-top border border-bottom-0" alt="">
+                            <div class="team-content bg-primary text-dark text-center py-3">
+                                <span class="fs-4 fw-bold">Tourabi Assia</span>
+                               
+                            </div>
+                            <div class="team-icon d-flex flex-column ">
+                                <a href="#" class="btn btn-primary border-0 mb-2"><i class="fab fa-facebook-f"></i></a>
+                                <a href="#" class="btn btn-primary border-0 mb-2"><i class="fab fa-twitter"></i></a>
+                                <a href="#" class="btn btn-primary border-0 mb-2"><i class="fab fa-instagram"></i></a>
+                                <a href="#" class="btn btn-primary border-0"><i class="fab fa-linkedin-in"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                   
+                </div>
+            </div>
+        </div>
+        <!-- Team End -->
+
+
+      
+
+
+
+        <!-- Copyright Start -->
+        <div class="container-fluid copyright bg-dark py-4">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4 text-center text-md-start mb-3 mb-md-0">
+                        <a href="#" class="text-primary mb-0 display-6">Future<span class="text-white">FIX</span><i class="fa fa-wrench text-primary ms-2"></i></a>
+                    </div>
+                    
+                    <div class="col-md-4 copyright-btn text-center text-md-start mb-3 mb-md-0 flex-shrink-0">
+                        <a class="btn btn-primary rounded-circle me-3 copyright-icon" href=""><i class="fab fa-twitter"></i></a>
+                        <a class="btn btn-primary rounded-circle me-3 copyright-icon" href=""><i class="fab fa-facebook-f"></i></a>
+                        <a class="btn btn-primary rounded-circle me-3 copyright-icon" href=""><i class="fab fa-youtube"></i></a>
+                        <a class="btn btn-primary rounded-circle me-3 copyright-icon" href=""><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                    <div class="col-md-4 my-auto text-center text-md-end text-white">
+                        <!--/*** This template is free as long as you keep the below author’s credit link/attribution link/backlink. ***/-->
+                        <!--/*** If you'd like to use the template without the below author’s credit link/attribution link/backlink, ***/-->
+                        <!--/*** you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". ***/-->
+                        Designed with love <a class="border-bottom" href="https://htmlcodex.com"></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Copyright End -->
+        
+
+        <!-- Back to Top -->
+        <a href="#" class="btn btn-primary rounded-circle border-3 back-to-top"><i class="fa fa-arrow-up"></i></a>
+
+        
+        <!-- JavaScript Libraries -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="{{url_for('static', filename='lib/wow/wow.min.js')}}"></script>
+        <script src="{{url_for('static', filename='lib/easing/easing.min.js')}}"></script>
+        <script src="{{url_for('static', filename='lib/waypoints/waypoints.min.js')}}"></script>
+        <script src="{{url_for('static', filename='lib/owlcarousel/owl.carousel.min.js')}}"></script>
+
+        <!-- Template Javascript -->
+        <script src="{{url_for('static', filename='js/main.js')}}"></script>
+    </body>
+
+</html>
