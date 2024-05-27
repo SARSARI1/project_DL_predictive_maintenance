@@ -10106,24 +10106,25 @@
                             </div>
                             <div class="mb-3">
                                 <label for="airTemperature" class="form-label">Air Temperature [K]</label>
-                                <input type="number" step="any" class="form-control" id="airTemperature" name="airTemperature" required>
+                                <input type="number" step="0.01" class="form-control" id="airTemperature" name="airTemperature" required min="296" max="304" title="La température de l'air doit être comprise entre 296 K et 304 K (300 K ± 2 K).">
                             </div>
                             <div class="mb-3">
                                 <label for="processTemperature" class="form-label">Process Temperature [K]</label>
-                                <input type="number" step="any" class="form-control" id="processTemperature" name="processTemperature" required>
+                                <input type="number" step="0.01" class="form-control" id="processTemperature" name="processTemperature" required min="307" max="315" title="La température du processus doit être la température de l'air + 10 K avec un écart type de 1 K.">
                             </div>
                             <div class="mb-3">
                                 <label for="rotationalSpeed" class="form-label">Rotational Speed [rpm]</label>
-                                <input type="number" step="any" class="form-control" id="rotationalSpeed" name="rotationalSpeed" required>
+                                <input type="number" step="0.01" class="form-control" id="rotationalSpeed" name="rotationalSpeed" required min="2850" max="2870" title="La vitesse de rotation calculée à partir d'une puissance de 2860 W, avec un bruit normalement distribué.">
                             </div>
                             <div class="mb-3">
                                 <label for="torque" class="form-label">Torque [Nm]</label>
-                                <input type="number" step="any" class="form-control" id="torque" name="torque" required>
+                                <input type="number" step="0.01" class="form-control" id="torque" name="torque" required min="0" title="Les valeurs de couple sont normalement distribuées autour de 40 Nm avec un écart type de 10 Nm.">
                             </div>
                             <div class="mb-3">
                                 <label for="toolWear" class="form-label">Tool Wear [min]</label>
-                                <input type="number" step="any" class="form-control" id="toolWear" name="toolWear" required>
+                                <input type="number" step="0.01" class="form-control" id="toolWear" name="toolWear" required min="2" title="Les incréments d'usure de l'outil : 5 minutes pour une qualité élevée, 3 minutes pour une qualité moyenne, 2 minutes pour une faible qualité.">
                             </div>
+                            
                             <button type="submit" class="btn btn-primary w-100 py-3">Predict</button>
                         </form>
                     </div>

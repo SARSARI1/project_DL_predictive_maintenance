@@ -10,7 +10,9 @@ import pandas as pd
 from reportlab.lib import colors
 from reportlab.lib.styles import ParagraphStyle
 from reportlab.lib.units import inch
+import matplotlib.pyplot as plt
 
+from reportlab.lib.units import inch
 #-----------------------------------------------------------------------------------------------------------------------------------------------------
 
 app = Flask(__name__)
@@ -27,6 +29,48 @@ loaded_model = pickle.load(open('model_np.pkl', 'rb'))
 app.permanent_session_lifetime = timedelta(minutes=5)
 
 #----------------------------------------------------------------------------------------------------functions----------------------------------------------------------------:
+# Load dataset
+df = pd.read_csv('data.csv')  # Replace 'your_dataset.csv' with your actual dataset filename
+
+# Function to generate Pareto chart for a given product ID
+# Function to generate Pareto chart for a given product ID and dataset
+def generate_pareto(product_id, dataset):
+    # Filter dataframe for the selected product ID
+    product_data = dataset[dataset['Product ID'] == product_id]
+    
+    # Count occurrences of machine failure types
+    failure_counts = product_data.iloc[:, 9:].sum().sort_values(ascending=False)
+    
+    # Calculate cumulative sum
+    cumsum = failure_counts.cumsum()
+    
+    # Calculate percentage
+    percentage = cumsum / failure_counts.sum() * 100
+    
+    # Plot Pareto chart
+    fig, ax1 = plt.subplots(figsize=(6, 6))
+    ax2 = ax1.twinx()
+    
+    ax1.bar(failure_counts.index, failure_counts, color='tab:blue')
+    ax2.plot(failure_counts.index, percentage, color='tab:red', marker='o')
+    
+    ax1.set_xlabel('Failure Type')
+    ax1.set_ylabel('Count', color='tab:blue')
+    ax2.set_ylabel('Cumulative Percentage', color='tab:red')
+    
+    plt.title(f'Pareto Chart for Product ID: {product_id}')
+    plt.xticks(rotation=45)
+    
+    plt.tight_layout()
+    
+    # Save plot to BytesIO object
+    buffer = BytesIO()
+    plt.savefig(buffer, format='png')
+    buffer.seek(0)
+    plt.close()
+    
+    return buffer
+
 
 # Predict machine failure
 def predict_fail(productID, type_pd, airTemperature, processTemperature, rotationalSpeed, torque, toolWear):
@@ -137,6 +181,16 @@ def entryData():
 @app.route("/resultData")
 def resultData():
     return render_template('resultData.html')
+@app.route("/pareto")
+def pareto():
+    # Load your dataset here or replace it with the appropriate method to fetch the data
+    dataset = pd.read_csv("data.csv")  # Adjust the file path as needed
+    
+    # Extract unique product IDs from the dataset
+    product_ids = dataset['Product ID'].unique().tolist()
+    
+    return render_template('select_product.html', product_ids=product_ids)
+
 
 @app.route("/make_predictions", methods=["POST"])
 def make_predictions():
@@ -186,6 +240,39 @@ def generate_report():
     response = make_response(pdf_buffer.getvalue())
     response.headers['Content-Type'] = 'application/pdf'
     response.headers['Content-Disposition'] = 'attachment; filename=report.pdf'
+    
+    return response
+
+
+
+# Route for generating Pareto chart
+@app.route("/generate_report", methods=['GET', 'POST'])
+def generate_pareto_chart():
+    # Get selected product ID from form
+    product_id = request.form['productID']
+    
+    # Load your dataset here or replace it with the appropriate method to fetch the data
+    dataset = pd.read_csv("data.csv")  # Adjust the file path as needed
+    
+    # Generate Pareto chart for the selected product
+    pareto_chart_buffer = generate_pareto(product_id, dataset)
+    
+    # Create PDF document
+    pdf_buffer = BytesIO()
+    doc = SimpleDocTemplate(pdf_buffer, pagesize=letter)
+    elements = []
+    
+    # Add Pareto chart to PDF
+    pareto_img = Image(pareto_chart_buffer)
+    elements.append(pareto_img)
+    
+    # Build PDF document
+    doc.build(elements)
+    
+    # Return PDF response
+    response = make_response(pdf_buffer.getvalue())
+    response.headers['Content-Type'] = 'application/pdf'
+    response.headers['Content-Disposition'] = f'attachment; filename=pareto_{product_id}.pdf'
     
     return response
 
